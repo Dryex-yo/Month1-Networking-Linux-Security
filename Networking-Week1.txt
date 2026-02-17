@@ -1,0 +1,136 @@
+# Networking Basic – Week 1
+
+## OSI Model
+| Layer               | Fungsi Singkat                                                                            | Contoh / Catatan Praktis                                    |
+| ------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| 7. Application      | Layer yang langsung berinteraksi dengan user. Menyediakan interface aplikasi ke jaringan. | Browser (HTTP/HTTPS), Email client (SMTP, POP3), FTP client |
+| 6. Presentation     | Bertanggung jawab format data & enkripsi/dekripsi.                                        | SSL/TLS, UTF-8 conversion, JPEG/MP3 encoding               |
+| 5. Session          | Mengatur sesi komunikasi antara 2 aplikasi: start, maintain, terminate.                   | Login session, Remote Desktop session                       |
+| 4. Transport        | Mengatur pengiriman data end-to-end, reliability.                                         | TCP (reliable), UDP (fast, tidak reliable), port number    |
+| 3. Network          | Menentukan alamat & routing, mengirim packet dari sumber ke tujuan.                       | IP address, ICMP (ping), routing                            |
+| 2. Data Link        | Mengatur transfer data antar node di jaringan lokal, error detection.                     | Ethernet, MAC address, Switch, ARP                          |
+| 1. Physical         | Media fisik untuk transmisi bit.                                                          | Kabel, fiber, Wi-Fi, sinyal listrik / optik                |
+
+### Mnemonic
+All People Seem To Need Data Processing  
+(Application – Presentation – Session – Transport – Network – Data Link – Physical)
+
+
+## TCP/IP Model
+| TCP/IP Layer              | Fungsi Singkat                                            | Layer OSI Setara                               | Contoh / Catatan Praktis                                |
+| ------------------------- | --------------------------------------------------------- | ---------------------------------------------- | ------------------------------------------------------- |
+| Application (TCP/IP)      | Interface aplikasi ke jaringan (gabungan OSI layer 7+6+5) | Application (7), Presentation (6), Session (5) | HTTP, HTTPS, FTP, SMTP, DNS                             |
+| Transport                 | Pengiriman data end-to-end, reliability                   | Transport (4)                                  | TCP (reliable), UDP (fast, tidak reliable), port number |
+| Internet                  | Alamat & routing packet dari host ke host                 | Network (3)                                    | IP, ICMP (ping), routing, NAT                           |
+| Network Access / Link     | Pengiriman data antar node di LAN / media fisik           | Data Link (2), Physical (1)                    | Ethernet, Wi-Fi, MAC address, Switch, Kabel             |
+
+### Perbedaan Utama OSI vs TCP/IP
+- Layer lebih sedikit → TCP/IP hanya 4 layer, OSI 7 layer  
+- OSI lebih konseptual, TCP/IP lebih praktis dan dipakai di dunia nyata  
+- Application TCP/IP gabungan 3 layer atas OSI → lebih simpel  
+- Link layer TCP/IP gabungan 2 layer bawah OSI → langsung ke hardware  
+
+> OSI = “7 step proses data”, TCP/IP = “4 langkah praktis”
+
+
+## Subnetting
+### Rumus dasar
+- Host bit = 32 - prefix  
+- Jumlah host usable = 2^(host bit) - 2  
+
+### Contoh Oktet
+128 64 32 16 8 4 2 1  
+1 1 1 1 1 1 1 1 = 255
+
+### Jumlah host per subnet
+| CIDR | Subnet Mask     | Host Usable |
+| ---- | --------------- | ----------- |
+| /24  | 255.255.255.0   | 254         |
+| /25  | 255.255.255.128 | 126         |
+| /26  | 255.255.255.192 | 62          |
+| /27  | 255.255.255.224 | 30          |
+| /28  | 255.255.255.240 | 14          |
+| /29  | 255.255.255.248 | 6           |
+| /30  | 255.255.255.252 | 2           |
+
+### Tambahan Bit
+| Decimal | Binary   | Prefix tambahan |
+| ------- | -------- | --------------- |
+| 128     | 10000000 | +1              |
+| 192     | 11000000 | +2              |
+| 224     | 11100000 | +3              |
+| 240     | 11110000 | +4              |
+| 248     | 11111000 | +5              |
+| 252     | 11111100 | +6              |
+| 254     | 11111110 | +7              |
+
+
+## DNS & HTTP
+
+### Flow Kerja DNS (Sederhana)
+1. User buka browser → ketik www.example.com  
+2. Browser cek DNS cache lokal  
+   - Jika ada IP, langsung pakai  
+   - Jika tidak, lanjut ke step 3  
+3. Request dikirim ke DNS resolver ISP  
+4. Resolver cek root DNS server → arahkan ke TLD server (.com) → arahkan ke Authoritative DNS server domain  
+5. Authoritative DNS server balas dengan IP address  
+6. Browser pakai IP itu untuk connect ke server web  
+
+**Tools praktis:**  
+- [nslookup](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/nslookup)  
+- [dig](https://linux.die.net/man/1/dig)  
+- [Wireshark](https://www.wireshark.org/)  
+- [Nmap](https://nmap.org/)
+
+### HTTP vs HTTPS
+| Fitur        | HTTP                        | HTTPS                           |
+| ------------ | --------------------------- | ------------------------------- |
+| Port default | 80                          | 443                             |
+| Encryption   | Tidak ada                   | SSL/TLS (encrypted)             |
+| URL prefix   | http://                      | https://                        |
+| Wireshark    | Bisa baca konten plain text | Konten terenkripsi (ciphertext) |
+
+**Flow HTTP Request**
+1. Browser buat request GET ke server (`GET /index.html HTTP/1.1`)  
+2. Server balas dengan response (HTML, CSS, JS)  
+3. Browser render halaman  
+
+**Flow HTTPS Request**
+1. Browser mulai TLS handshake  
+2. Negosiasi kunci enkripsi antara browser & server  
+3. Semua request/response terenkripsi  
+4. Browser render halaman  
+
+**Tips Wireshark:**
+- HTTP → bisa lihat detail URL, headers, isi request  
+- HTTPS → paket muncul tapi payload tidak terbaca karena terenkripsi  
+
+
+## Nmap Scan Result
+**Target IP:** 192.168.100.10  
+**Command:** `nmap -sS -sV -A 192.168.100.10`  
+- `-sS` → SYN scan (stealth scan)  
+- `-sV` → deteksi versi service  
+- `-A` → OS detection + script scan + traceroute  
+
+| Port | State | Service | Version       |
+| ---- | ----- | ------- | ------------- |
+| 21   | open  | FTP     | vsftpd 2.3.4  |
+| 22   | open  | SSH     | OpenSSH 4.7p1 Debian 8ubuntu1(protocol 2.0) |
+| 23   | open  | Telnet  | Linux telnetd  |
+| 80   | open  | HTTP    | Apache 2.2.8 ((Ubuntu) DAV/2)  |
+| 3306 | open  | MySQL   | MySQL 5.0.51a-3ubuntu5 |
+
+### Notes Singkat
+- **21 – FTP (vsftpd 2.3.4)** → versi lama, potensi backdoor / anonymous login  
+- **22 – SSH (OpenSSH 4.7p1)** → versi lama, bisa target brute force (lab)  
+- **23 – Telnet** → tidak terenkripsi, kredensial bisa disadap, risiko tinggi  
+- **80 – Apache 2.2.8** → versi lama (EOL), potensi web vulnerability  
+- **3306 – MySQL 5.0.51a** → versi lama, cek kemungkinan akses tanpa proteksi  
+
+
+## Kesimpulan Week 1
+- Networking fundamental KUAT  
+- OSI, TCP/IP, Subnetting, DNS/HTTP, Nmap sudah dikuasai  
+- Siap lanjut Week 2 → Linux Admin + Command Line + Permission + Process + Service
