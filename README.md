@@ -33,7 +33,7 @@ The goal is to build strong networking and Linux fundamentals as preparation for
 
 ## Week 1 - Networking Fundamental
 
-Documentation:  
+📄 Documentation:  
 [Week1-Networking-Fundamental.txt](Week1-Networking-Fundamental.txt)
 
 ### Topics Covered
@@ -43,7 +43,7 @@ Documentation:
 - IPv4 Addressing
 - Subnetting Basics
 - Common Ports and Protocols
-- Basic Networking Commands (ping, traceroute, netstat, ss, curl, telnet)
+- Basic Networking Commands (`ping`, `traceroute`, `netstat`, `ss`, `curl`, `telnet`)
 
 ### Learning Outcome
 
@@ -56,7 +56,7 @@ Documentation:
 
 ## Week 2 - Linux and Bash Lab
 
-Documentation:  
+📄 Documentation:  
 [Week2-Linux-Bash-Lab.txt](Week2-Linux-Bash-Lab.txt)
 
 ### Topics Covered
@@ -79,44 +79,44 @@ Documentation:
 
 ## Lab Environment
 
-- VirtualBox Internal Network
-- Kali Linux (Attacker Machine)
-- Ubuntu Server (Target Machine)
-- Network Range: 192.168.100.0/24
+- **VirtualBox Internal Network**
+- **Kali Linux** (Attacker Machine)
+- **Ubuntu Server** (Target Machine)
+- **Network Range:** 192.168.100.0/24
 
 ---
 
 ## Tools Used
 
-Networking Tools:
-- ip
-- ping
-- traceroute
-- netstat
-- ss
-- curl
-- telnet
+### Networking Tools
+- `ip`
+- `ping`
+- `traceroute`
+- `netstat`
+- `ss`
+- `curl`
+- `telnet`
 
-Linux Administration:
-- ps
-- top
-- kill
-- chmod
-- chown
-- systemctl
+### Linux Administration
+- `ps`
+- `top`
+- `kill`
+- `chmod`
+- `chown`
+- `systemctl`
 
-Remote Access:
-- ssh
+### Remote Access
+- `ssh`
 
 ---
 
 ## Next Roadmap
 
-- Week 3 - Network Scanning with Nmap
-- Week 4 - Packet Analysis with Wireshark
-- Week 5 - Basic Enumeration Techniques
-- Week 6 - System Hardening Fundamentals
+- **Week 3 - Network Scanning with Nmap**
+- **Week 4 - Packet Analysis with Wireshark**
+- **Week 5 - Basic Enumeration Techniques**
+- **Week 6 - System Hardening Fundamentals**
 
 ---
 
-Author: Dryex
+**Author:** Dryex
