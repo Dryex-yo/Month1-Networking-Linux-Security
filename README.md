@@ -4,12 +4,12 @@ Hands-on networking and Linux lab documentation focused on building strong funda
 
 📑 Table of Contents
 
-Overview
-Week 1 – Networking Fundamental
-Week 2 – Linux & Bash Lab
-Lab Environment
-Tools Used
-Next Roadmap
+## Overview
+## Week 1 - Networking Fundamental
+## Week 2 - Linux & Bash Lab
+## Lab Environment
+## Tools Used
+## Next Roadmap
 
 🧠 Overview
 This repository documents my structured learning journey in:
